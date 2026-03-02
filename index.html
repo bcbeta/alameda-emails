@@ -184,6 +184,7 @@ function render(){
       html+='</div><div class="email-date">'+formatDateShort(e.d)+'</div></div>';
       html+='<div class="email-meta"><span class="email-sender">'+highlightText(e.n,query)+'</span>';
       if(e.to)html+='<span class="email-recipients">→ '+highlightText(e.to.substring(0,80),query)+(e.to.length>80?'…':'')+'</span>';html+='</div>';
+      if(e.b)html+='<div class="email-preview">'+highlightText(e.b.substring(0,420).replace(/[\r\n]+/g,' '),query)+(e.b.length>420?'…':'')+'</div>';
       html+='<div class="email-detail">';
       html+='<div class="field"><span class="label">From: </span>'+escapeHtml(e.n)+(e.e?' &lt;'+escapeHtml(e.e)+'&gt;':'')+'</div>';
       if(e.to)html+='<div class="field"><span class="label">To: </span>'+highlightText(e.to,query)+'</div>';
