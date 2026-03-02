@@ -9,9 +9,6 @@
 :root{--bg:#f5f3ef;--card:#fff;--accent:#b45309;--accent-light:#fef3c7;--accent-dark:#92400e;--text:#1c1917;--text-muted:#78716c;--border:#e7e5e4;--shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);--shadow-lg:0 4px 12px rgba(0,0,0,.08),0 2px 4px rgba(0,0,0,.04)}
 *{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
 .header{background:#1c1917;color:#fafaf9;padding:2rem 0;border-bottom:4px solid var(--accent)}.header-inner{max-width:1100px;margin:0 auto;padding:0 1.5rem}.header h1{font-family:'DM Serif Display',serif;font-size:1.8rem;font-weight:400;letter-spacing:-.02em}
-.carousel-section{max-width:1100px;margin:1.5rem auto 0;padding:0 1.5rem}.carousel-title{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--accent);margin-bottom:.75rem}.carousel-wrap{position:relative;overflow:hidden}.carousel-track{display:flex;gap:1rem;transition:transform .4s ease}
-.carousel-card{min-width:320px;max-width:320px;background:var(--card);border:2px solid var(--accent);border-radius:10px;padding:1rem 1.25rem;box-shadow:var(--shadow-lg);cursor:pointer;flex-shrink:0}.carousel-card:hover{background:var(--accent-light)}.carousel-card .cc-subject{font-weight:700;font-size:.88rem;margin-bottom:.3rem;color:var(--text)}.carousel-card .cc-meta{font-size:.78rem;color:var(--text-muted)}.carousel-card .cc-sender{color:var(--accent);font-weight:600}.carousel-card .cc-preview{font-size:.78rem;color:var(--text-muted);margin-top:.4rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.carousel-nav{position:absolute;top:50%;transform:translateY(-50%);background:var(--accent);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:1.2rem;cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-lg)}.carousel-nav:hover{background:var(--accent-dark)}.carousel-nav.prev{left:-4px}.carousel-nav.next{right:-4px}
 
 /* MONTH NAV */
 .month-nav{max-width:1100px;margin:1rem auto .5rem;padding:0 1.5rem;display:flex;gap:.4rem;flex-wrap:wrap}
@@ -21,8 +18,11 @@
 .controls{max-width:1100px;margin:.75rem auto;padding:0 1.5rem;display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
 .search-box{flex:1;min-width:220px;position:relative}.search-box input{width:100%;padding:.65rem 1rem .65rem 2.5rem;border:1px solid var(--border);border-radius:8px;font-size:.9rem;font-family:inherit;background:var(--card);box-shadow:var(--shadow)}.search-box input:focus{outline:none;border-color:var(--accent)}.search-box svg{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(--text-muted)}
 .sender-select{padding:.65rem 1rem;border:1px solid var(--border);border-radius:8px;font-size:.9rem;font-family:inherit;background:var(--card);box-shadow:var(--shadow);min-width:180px;cursor:pointer}.sender-select:focus{outline:none;border-color:var(--accent)}
-.pill-toggle{position:relative;display:inline-flex;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);cursor:pointer;user-select:none;height:36px;width:210px;flex-shrink:0;overflow:hidden;transition:border-color .2s}  
-  .stats{font-size:.8rem;color:var(--text-muted);padding:.5rem 0;width:100%}.stats span{font-weight:600;color:var(--accent)}
+
+/* PILL SLIDER */
+.pill-toggle{position:relative;display:inline-flex;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);cursor:pointer;user-select:none;height:36px;width:210px;flex-shrink:0;overflow:hidden;transition:border-color .2s}.pill-toggle input{display:none}.pill-track{display:flex;width:100%;height:100%;position:relative;z-index:2}.pill-label{flex:1;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:var(--text-muted);transition:color .2s ease;text-transform:uppercase;letter-spacing:.04em}.pill-thumb{position:absolute;top:2px;bottom:2px;left:2px;width:calc(50% - 2px);background:var(--accent-light);border-radius:16px;transition:transform .25s cubic-bezier(.4,0,.2,1);z-index:1;border:1px solid var(--accent)}.pill-toggle input:checked ~ .pill-thumb{transform:translateX(0)}.pill-toggle input:checked ~ .pill-track .lbl-high{color:var(--accent-dark)}.pill-toggle input:not(:checked) ~ .pill-thumb{transform:translateX(100%);background:#e7e5e4;border-color:#d6d3d1}.pill-toggle input:not(:checked) ~ .pill-track .lbl-all{color:var(--text)}.pill-toggle:hover{border-color:var(--accent)}
+
+.stats{font-size:.8rem;color:var(--text-muted);padding:.5rem 0;width:100%}.stats span{font-weight:600;color:var(--accent)}
 .email-list{max-width:1100px;margin:0 auto;padding:0 1.5rem 2rem}.month-group{margin-bottom:1.5rem}.month-label{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--accent);padding:.5rem 0;border-bottom:2px solid var(--accent);margin-bottom:.75rem;position:sticky;top:0;background:var(--bg);z-index:10;cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center}.month-label:hover{color:var(--accent-dark)}.month-label .chevron{transition:transform .2s;font-size:.8rem}.month-group.collapsed .month-label .chevron{transform:rotate(-90deg)}.month-group.collapsed .email-card{display:none}
 .email-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;margin-bottom:.5rem;box-shadow:var(--shadow);transition:box-shadow .2s,border-color .2s;cursor:pointer}.email-card:hover{box-shadow:var(--shadow-lg);border-color:var(--accent)}.email-card.expanded{border-color:var(--accent)}.email-card.highlighted-card{border-left:4px solid var(--accent);background:linear-gradient(90deg,#fffbeb 0%,#fff 8%)}
 .email-top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}.email-subject{font-weight:600;font-size:.92rem;color:var(--text);flex:1}.email-badges{display:flex;gap:.4rem;align-items:center;flex-shrink:0}.badge-star{color:var(--accent);font-size:1rem}.badge-attach{color:var(--text-muted);font-size:.85rem}.email-date{font-size:.78rem;color:var(--text-muted);white-space:nowrap;flex-shrink:0}
@@ -45,175 +45,15 @@
 
 .footer{max-width:1100px;margin:2rem auto 0;padding:1.5rem;border-top:2px solid var(--border);text-align:center}.footer-cora{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;background:#1c1917;color:#fafaf9;border-radius:8px;text-decoration:none;font-weight:600;font-size:.9rem;transition:background .15s}.footer-cora:hover{background:#44403c}.footer-note{margin-top:.75rem;font-size:.78rem;color:var(--text-muted)}
 .no-results{text-align:center;padding:3rem;color:var(--text-muted);font-size:1rem}mark{background:var(--accent-light);color:var(--accent);border-radius:2px;padding:0 2px}
-@media(max-width:640px){.controls{flex-direction:column}.sender-select,.pill-toggle{width:100%}.email-top{flex-direction:column;gap:.25rem}.email-recipients{max-width:100%}.carousel-card{min-width:280px;max-width:280px}.month-nav{gap:.3rem}.month-nav a{padding:.25rem .5rem;font-size:.72rem}}
-  </style>
+@media(max-width:640px){.controls{flex-direction:column}.sender-select,.pill-toggle{width:100%}.email-top{flex-direction:column;gap:.25rem}.email-recipients{max-width:100%}.month-nav{gap:.3rem}.month-nav a{padding:.25rem .5rem;font-size:.72rem}}
+</style>
 </head>
 <body>
 <div class="header"><div class="header-inner"><h1>Alameda Lane Repurposing — CORA Archive</h1></div></div>
-<div class="carousel-section">
-  <div class="carousel-title">★ Highlights</div>
-  <div class="carousel-wrap" id="carouselWrap">
-    <button class="carousel-nav prev" onclick="carouselMove(-1)">‹</button>
-    <div class="carousel-track" id="carouselTrack"></div>
-    <button class="carousel-nav next" onclick="carouselMove(1)">›</button>
-  </div>
-</div>
 <div class="month-nav" id="monthNav"></div>
 <div class="controls">
   <div class="search-box">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <input type="text" id="searchInput" placeholder="Search by keyword, sender, recipient…">
   </div>
-  <select id="senderFilter" class="sender-select"><option value="">All senders</option>
-<option value="Albo, Hadar">Albo, Hadar</option><option value="Alvidrez, Flor C.">Alvidrez, Flor C.</option><option value="Amy Guttmann">Amy Guttmann</option><option value="Boncore, Brett">Boncore, Brett</option><option value="Bramlet, Erica">Bramlet, Erica</option><option value="Castro, Alba C.">Castro, Alba C.</option><option value="Christine Shock">Christine Shock</option><option value="Ciarkowski, Matt">Ciarkowski, Matt</option><option value="Cieciek, Gregory M.">Cieciek, Gregory M.</option><option value="Cody Belzley">Cody Belzley</option><option value="Colton, Paige H.">Colton, Paige H.</option><option value="Cox, Paul A.">Cox, Paul A.</option><option value="DOTI Communications">DOTI Communications</option><option value="Dave Hawkins">Dave Hawkins</option><option value="Eisinger, John R.">Eisinger, John R.</option><option value="Elizabeth DiLorenzo Chester">Elizabeth DiLorenzo Chester</option><option value="Emma Knisley">Emma Knisley</option><option value="Flack, Caleb">Flack, Caleb</option><option value="Ford, Amy">Ford, Amy</option><option value="Foreman, Amy N.">Foreman, Amy N.</option><option value="Garcia, Lindy L.">Garcia, Lindy L.</option><option value="Good, Karen A.">Good, Karen A.</option><option value="Gutierrez, Alex">Gutierrez, Alex</option><option value="Hillhouse, Jennifer L.">Hillhouse, Jennifer L.</option><option value="Holloway, Tykus R.">Holloway, Tykus R.</option><option value="Howell, Dallas">Howell, Dallas</option><option value="Illana Poley">Illana Poley</option><option value="Jason Gallardo">Jason Gallardo</option><option value="Jill Anschutz">Jill Anschutz</option><option value="Johnson, Jon C.">Johnson, Jon C.</option><option value="K. Dieter Heidrich">K. Dieter Heidrich</option><option value="Kashmann, Paul J.">Kashmann, Paul J.</option><option value="Kimberly Kolesar">Kimberly Kolesar</option><option value="Kuhn, Nancy">Kuhn, Nancy</option><option value="Lanphier, Molly">Lanphier, Molly</option><option value="Lior, Masha M.">Lior, Masha M.</option><option value="Loeffler, Tyler">Loeffler, Tyler</option><option value="Louie, Emily">Louie, Emily</option><option value="Marfitano, Steven C.">Marfitano, Steven C.</option><option value="McWhorter, Alaina">McWhorter, Alaina</option><option value="Melinda Stevens">Melinda Stevens</option><option value="Moore, Kristen I.">Moore, Kristen I.</option><option value="Pogue, Eric">Pogue, Eric</option><option value="Pratt, Anthony">Pratt, Anthony</option><option value="Price, Brittany C.">Price, Brittany C.</option><option value="Raymond Morgan">Raymond Morgan</option><option value="Reuter, Patience">Reuter, Patience</option><option value="S M Roush">S M Roush</option><option value="Sarah McCarthy">Sarah McCarthy</option><option value="Shawnda Maher">Shawnda Maher</option><option value="The Denver Gazette">The Denver Gazette</option><option value="Thomas Topero">Thomas Topero</option><option value="Till, Bryanna">Till, Bryanna</option><option value="Tomczak, Kenneth E.">Tomczak, Kenneth E.</option><option value="Vigil, Rachael">Vigil, Rachael</option><option value="Weis, Gavin">Weis, Gavin</option><option value="Zacharias, Kayla">Zacharias, Kayla</option><option value="cynthia massirio">cynthia massirio</option></select>
-  <label class="pill-toggle">
-    <input type="checkbox" id="highlightFilter" checked>
-    <div class="pill-thumb"></div>
-    <div class="pill-track">
-      <span class="pill-label lbl-high">Highlights</span>
-      <span class="pill-label lbl-all">All</span>
-    </div>
-  </label>  
-  <div class="stats" id="stats"></div>
-</div>
-
-<div class="email-list" id="emailList">
-  <div class="no-results" id="loadingMessage">Fetching emails from Google Drive... Please wait.</div>
-</div>
-
-<div class="screenshots-section">
-  <div class="screenshots-title">DOTI Chat Screenshots</div>
-  <div class="screenshots-grid" id="screenshotsGrid"></div>
-</div>
-<div class="footer">
-  <a class="footer-cora" href="https://drive.google.com/drive/folders/1e1Eq751GPFeGexDXplgbpKmR1Ig_IUbt" target="_blank">📁 View Full Alameda CORA Files</a>
-  <div class="footer-note">Colorado Open Records Act (CORA) request — complete document collection</div>
-</div>
-
-<script>
-// =========================================================================
-// DATA FETCHING LOGIC
-// =========================================================================
-
-let EMAILS = [];
-
-fetch('alameda_emails.json')
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .then(data => {
-    EMAILS = data;
-    render();
-    buildCarousel();
-  })
-  .catch(error => {
-    console.error('Error fetching email data:', error);
-    document.getElementById('emailList').innerHTML = `
-      <div class="no-results" style="color:#b45309; background:#fef3c7; border:1px solid #b45309; padding:2rem; border-radius:8px;">
-        <strong>Error loading email data.</strong><br><br>
-        Make sure your emails.json file is uploaded to the same folder as this HTML file on GitHub.
-      </div>`;
-  });
-
-// =========================================================================
-// HELPER FUNCTIONS & UI LOGIC
-// =========================================================================
-
-const SCREENSHOTS=[{"name": "Alameda checkin.jpg", "id": "1tcXWSqNBDsGQfpKacPZx6xvmq12iFt8E", "url": "https://drive.google.com/file/d/1tcXWSqNBDsGQfpKacPZx6xvmq12iFt8E/view?usp=drivesdk", "type": "image/jpeg", "size": 168976}, {"name": "Follow up to Jason and neighbors 1.jpg", "id": "1gv34OVU6H8b-_vCL7yprWePHw8ug4vf4", "url": "https://drive.google.com/file/d/1gv34OVU6H8b-_vCL7yprWePHw8ug4vf4/view?usp=drivesdk", "type": "image/jpeg", "size": 175366}, {"name": "Follow up to Jason and neighbors 2.jpg", "id": "1hKc8ElmG3_epOTYAjJdH1clibAVSMNFi", "url": "https://drive.google.com/file/d/1hKc8ElmG3_epOTYAjJdH1clibAVSMNFi/view?usp=drivesdk", "type": "image/jpeg", "size": 176368}, {"name": "post check in for media inquiry meeting 1.jpg", "id": "1TN1yjWdAK7VWUQN-ixH_AKdZq-Y63ipL", "url": "https://drive.google.com/file/d/1TN1yjWdAK7VWUQN-ixH_AKdZq-Y63ipL/view?usp=drivesdk", "type": "image/jpeg", "size": 182510}, {"name": "Post check in for media inquiry meeting 2.jpg", "id": "1jy319sPTAXewNXVKgmrLyLIPdds29tFC", "url": "https://drive.google.com/file/d/1jy319sPTAXewNXVKgmrLyLIPdds29tFC/view?usp=drivesdk", "type": "image/jpeg", "size": 176088}, {"name": "post check in for media inquiry meeting 3.jpg", "id": "1w7Z9wvMgkB7J8PddOPJJHK6clDlbHmbz", "url": "https://drive.google.com/file/d/1w7Z9wvMgkB7J8PddOPJJHK6clDlbHmbz/view?usp=drivesdk", "type": "image/jpeg", "size": 222597}, {"name": "Post check in for media inquiry meeting 4.jpg", "id": "1knw4aJu8rbBcf_6voFBFD7V2x-ORPj1k", "url": "https://drive.google.com/file/d/1knw4aJu8rbBcf_6voFBFD7V2x-ORPj1k/view?usp=drivesdk", "type": "image/jpeg", "size": 181328}, {"name": "Post check in for media inquiry meeting 5.jpg", "id": "1CpL63Sa0Toqzpt7-HqM5Ys06Cle05TTP", "url": "https://drive.google.com/file/d/1CpL63Sa0Toqzpt7-HqM5Ys06Cle05TTP/view?usp=drivesdk", "type": "image/jpeg", "size": 166719}];
-
-const months=["January","February","March","April","May","June","July","August","September","October","November","December"];
-const monthsShort=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-function parseDate(d){if(!d)return null;try{const m=d.match(/(\d{4})-(\d{2})-(\d{2})/);if(m)return new Date(+m[1],+m[2]-1,+m[3]);}catch(e){}return null;}
-function formatDateShort(d){if(!d)return"No date";const p=parseDate(d);if(!p)return d;return p.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
-function getMonthYear(d){const p=parseDate(d);if(!p)return"Unknown Date";return months[p.getMonth()]+" "+p.getFullYear();}
-function monthAnchor(d){const p=parseDate(d);if(!p)return"unknown";return months[p.getMonth()]+p.getFullYear();}
-function escapeHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
-function highlightText(text,query){if(!query||!text)return escapeHtml(text);const e=escapeHtml(text);const terms=query.toLowerCase().split(/\s+/).filter(t=>t.length>1);if(!terms.length)return e;const pat=terms.map(t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|');return e.replace(new RegExp('('+pat+')','gi'),'<mark>$1</mark>');}
-function driveView(id){return'https://drive.google.com/file/d/'+id+'/view';}
-
-// Fixed missing quote from previous iterations
-function driveThumbnail(id,sz){return'https://drive.google.com/thumbnail?id='+id+'&sz=w'+sz;}
-
-function fileIcon(n){n=n.toLowerCase();if(n.endsWith('.pdf'))return'📄';if(/\.(png|jpg|jpeg|gif)$/.test(n))return'🖼';if(/\.(xlsx?|csv)$/.test(n))return'📊';if(/\.docx?$/.test(n))return'📝';if(n.endsWith('.msg'))return'✉️';if(/\.html?$/.test(n))return'🌐';return'📎';}
-
-function buildCarousel(){const h=EMAILS.filter(e=>e.h);const track=document.getElementById('carouselTrack');if(!h.length){document.querySelector('.carousel-section').style.display='none';return;}let html='';h.forEach(e=>{const link=e.pid?driveView(e.pid):'#';html+='<a class="carousel-card" href="'+link+'" target="_blank" style="text-decoration:none;color:inherit"><div class="cc-subject">'+escapeHtml(e.s||'(No Subject)')+'</div><div class="cc-meta"><span class="cc-sender">'+escapeHtml(e.n)+'</span> · '+formatDateShort(e.d)+'</div>';if(e.b)html+='<div class="cc-preview">'+escapeHtml(e.b.substring(0,420))+'</div>';html+='</a>';});track.innerHTML=html;}
-let carouselPos=0;function carouselMove(dir){const track=document.getElementById('carouselTrack');const wrap=document.getElementById('carouselWrap');const cards=track.children;if(!cards.length)return;const cardW=cards[0].offsetWidth+16;const maxScroll=track.scrollWidth-wrap.offsetWidth;carouselPos=Math.max(0,Math.min(carouselPos+dir*cardW,maxScroll));track.style.transform='translateX(-'+carouselPos+'px)';}
-
-function buildScreenshots(){
-  const grid=document.getElementById('screenshotsGrid');let html='';
-  SCREENSHOTS.forEach(s=>{
-    const thumb=driveThumbnail(s.id,600);
-    const view=driveView(s.id);
-    const name=s.name.replace(/\.[^.]+$/,'');
-    html+='<div class="screenshot-card"><a href="'+view+'" target="_blank">';
-    html+='<img src="'+thumb+'" alt="'+escapeHtml(name)+'" loading="lazy">';
-    html+='<div class="sc-name">'+escapeHtml(name)+'</div>';
-    html+='</a></div>';
-  });
-  grid.innerHTML=html;
-}
-
-function render(){
-  const query=document.getElementById('searchInput').value.toLowerCase().trim();
-  const senderFilter=document.getElementById('senderFilter').value;
-  const highlightOnly=document.getElementById('highlightFilter').checked;
-  const container=document.getElementById('emailList');
-  let filtered=EMAILS;
-  if(senderFilter)filtered=filtered.filter(e=>e.n===senderFilter);
-  if(highlightOnly)filtered=filtered.filter(e=>e.h);
-  if(query){const terms=query.split(/\s+/).filter(t=>t.length>1);filtered=filtered.filter(e=>{const s=((e.x||'')+' '+(e.b||'')).toLowerCase();return terms.every(t=>s.includes(t));});}
-  document.getElementById('stats').innerHTML='Showing <span>'+filtered.length+'</span> of <span>'+EMAILS.length+'</span> emails';
-  if(!filtered.length){container.innerHTML='<div class="no-results">No emails match your search.</div>';document.getElementById('monthNav').innerHTML='';return;}
-
-  const groups={};filtered.forEach(e=>{const k=getMonthYear(e.d);if(!groups[k])groups[k]=[];groups[k].push(e);});
-
-  // Build month nav
-  const navHtml=Object.keys(groups).map(m=>{
-    const anchor=m.replace(/\s/g,'');
-    const parts=m.split(' ');
-    const short=monthsShort[months.indexOf(parts[0])]||parts[0];
-    const label=short+(parts[1]&&parts[1]!=='2025'?' '+parts[1]:'');
-    return '<a href="#month-'+anchor+'" onclick="event.preventDefault();document.getElementById(\'month-'+anchor+'\').scrollIntoView({behavior:\'smooth\',block:\'start\'})">'+label+'</a>';
-  }).join('');
-  document.getElementById('monthNav').innerHTML=navHtml;
-
-  let html='';
-  for(const[month,emails]of Object.entries(groups)){
-    const anchor=month.replace(/\s/g,'');
-    html+='<div class="month-group"><div class="month-label" id="month-'+anchor+'" onclick="toggleMonth(this)"><span>'+month+' ('+emails.length+')</span><span class="chevron">▼</span></div>';
-    emails.forEach((e,idx)=>{
-      const id='e-'+anchor+'-'+idx;const hClass=e.h?' highlighted-card':'';
-      html+='<div class="email-card'+hClass+'" id="'+id+'" onclick="toggleCard(\''+id+'\')">';
-      html+='<div class="email-top"><div class="email-subject">'+highlightText(e.s||'(No Subject)',query)+'</div><div class="email-badges">';
-      if(e.h)html+='<span class="badge-star" title="Highlighted">★</span>';if(e.att&&e.att.length)html+='<span class="badge-attach" title="'+e.att.length+' attachment(s)">📎'+e.att.length+'</span>';
-      html+='</div><div class="email-date">'+formatDateShort(e.d)+'</div></div>';
-      html+='<div class="email-meta"><span class="email-sender">'+highlightText(e.n,query)+'</span>';
-      if(e.to)html+='<span class="email-recipients">→ '+highlightText(e.to.substring(0,80),query)+(e.to.length>80?'…':'')+'</span>';html+='</div>';
-      if(e.b)html+='<div class="email-preview">'+highlightText(e.b.substring(0,420).replace(/[\r\n]+/g,' '),query)+(e.b.length>420?'…':'')+'</div>';
-      html+='<div class="email-detail">';
-      html+='<div class="field"><span class="label">From: </span>'+escapeHtml(e.n)+(e.e?' &lt;'+escapeHtml(e.e)+'&gt;':'')+'</div>';
-      if(e.to)html+='<div class="field"><span class="label">To: </span>'+highlightText(e.to,query)+'</div>';
-      if(e.cc)html+='<div class="field"><span class="label">CC: </span>'+highlightText(e.cc,query)+'</div>';
-      html+='<div class="field"><span class="label">Date: </span>'+escapeHtml(e.d)+'</div>';
-      if(e.b)html+='<div class="email-body">'+highlightText(e.b,query)+'</div>';
-      html+='<div class="email-links">';if(e.pid)html+='<a class="btn-link btn-pdf" href="'+driveView(e.pid)+'" target="_blank" onclick="event.stopPropagation()">📄 View Full PDF</a>';html+='</div>';
-      if(e.att&&e.att.length){html+='<div class="attach-list"><div class="attach-title">Attachments ('+e.att.length+')</div>';e.att.forEach(a=>{html+='<a class="attach-item" href="'+driveView(a.id)+'" target="_blank" onclick="event.stopPropagation()">'+fileIcon(a.n)+' '+escapeHtml(a.n)+'</a>';});html+='</div>';}
-      html+='</div></div>';
-    });
-    html+='</div>';
-  }
-  container.innerHTML=html;
-}
-function toggleCard(id){document.getElementById(id).classList.toggle('expanded');}
-function toggleMonth(el){el.parentElement.classList.toggle('collapsed');}
-let debounceTimer;document.getElementById('searchInput').addEventListener('input',()=>{clearTimeout(debounceTimer);debounceTimer=setTimeout(render,200);});
-document.getElementById('senderFilter').addEventListener('change',render);document.getElementById('highlightFilter').addEventListener('change',render);
-
-// Initialize static content right away
-buildScreenshots();
-</script>
-</body>
-</html>
+  <select id="senderFilter" class="
