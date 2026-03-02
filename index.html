@@ -45,12 +45,14 @@
 
 .footer{max-width:1100px;margin:2rem auto 0;padding:1.5rem;border-top:2px solid var(--border);text-align:center}.footer-cora{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;background:#1c1917;color:#fafaf9;border-radius:8px;text-decoration:none;font-weight:600;font-size:.9rem;transition:background .15s}.footer-cora:hover{background:#44403c}.footer-note{margin-top:.75rem;font-size:.78rem;color:var(--text-muted)}
 .no-results{text-align:center;padding:3rem;color:var(--text-muted);font-size:1rem}mark{background:var(--accent-light);color:var(--accent);border-radius:2px;padding:0 2px}
-@media(max-width:640px){.controls{flex-direction:column}.sender-select,.pill-toggle{width:100%}.email-top{flex-direction:column;gap:.25rem}.email-recipients{max-width:100%}.month-nav{gap:.3rem}.month-nav a{padding:.25rem .5rem;font-size:.72rem}}
+
+/* MOBILE FIX FOR SEARCH BAR */
+@media(max-width:640px){.controls{flex-direction:column}.search-box,.sender-select,.pill-toggle{width:100%}.email-top{flex-direction:column;gap:.25rem}.email-recipients{max-width:100%}.month-nav{gap:.3rem}.month-nav a{padding:.25rem .5rem;font-size:.72rem}}
 </style>
 </head>
 <body>
 <div class="header"><div class="header-inner"><h1>Alameda Lane Repurposing — CORA Archive</h1></div></div>
-<div class="month-nav" id="monthNav"></div>
+
 <div class="controls">
   <div class="search-box">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -69,8 +71,10 @@
   <div class="stats" id="stats"></div>
 </div>
 
+<div class="month-nav" id="monthNav"></div>
+
 <div class="email-list" id="emailList">
-  <div class="no-results" id="loadingMessage">Fetching emails from Google Drive... Please wait.</div>
+  <div class="no-results" id="loadingMessage">Fetching emails from GitHub... Please wait.</div>
 </div>
 
 <div class="screenshots-section">
@@ -105,7 +109,7 @@ fetch('alameda_emails.json')
     document.getElementById('emailList').innerHTML = `
       <div class="no-results" style="color:#b45309; background:#fef3c7; border:1px solid #b45309; padding:2rem; border-radius:8px;">
         <strong>Error loading email data.</strong><br><br>
-        Make sure your emails.json file is uploaded to the same folder as this HTML file on GitHub.
+        Make sure your alameda_emails.json file is uploaded to the same folder as this HTML file on GitHub.
       </div>`;
   });
 
