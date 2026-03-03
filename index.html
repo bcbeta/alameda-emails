@@ -10,6 +10,9 @@
 *{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
 .header{background:#1c1917;color:#fafaf9;padding:2rem 0;border-bottom:4px solid var(--accent)}.header-inner{max-width:1100px;margin:0 auto;padding:0 1.5rem}.header h1{font-family:'DM Serif Display',serif;font-size:1.8rem;font-weight:400;letter-spacing:-.02em}
 
+/* TOP ANCHOR LINK */
+.header-anchor{display:inline-flex;align-items:center;gap:.4rem;margin-top:.75rem;padding:.4rem .85rem;background:rgba(255,255,255,0.1);color:#fef3c7;font-size:.85rem;font-weight:600;text-decoration:none;border-radius:6px;transition:background .2s, color .2s;}.header-anchor:hover{background:var(--accent);color:#fff;}
+
 /* CONTROLS (Non-Sticky) */
 .controls{max-width:1100px;margin:1.5rem auto 1rem;padding:0 1.5rem;display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
 .search-box{flex:1;min-width:220px;position:relative}.search-box input{width:100%;padding:.65rem 1rem .65rem 2.5rem;border:1px solid var(--border);border-radius:8px;font-size:.9rem;font-family:inherit;background:var(--card);box-shadow:var(--shadow)}.search-box input:focus{outline:none;border-color:var(--accent)}.search-box svg{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(--text-muted)}
@@ -40,6 +43,14 @@
 .attach-list{margin-top:.75rem}.attach-title{font-size:.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem}.attach-item{display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .65rem;margin:.2rem;border-radius:6px;font-size:.78rem;font-weight:500;text-decoration:none;background:var(--accent);color:#fff;transition:background .15s}.attach-item:hover{background:var(--accent-dark)}
 .email-preview { font-size: .75rem; color: #a8a29e; font-weight: 400; margin-top: .5rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }.email-card.expanded .email-preview { display: none; }
 
+/* WITHHELD SECTION */
+.withheld-section{max-width:1100px;margin:2rem auto;padding:2rem 1.5rem;background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;scroll-margin-top:120px;}
+.withheld-title{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--accent-dark);margin-bottom:1.5rem;line-height:1.3;}
+.withheld-grid{display:flex;gap:1rem;flex-wrap:wrap;}
+.withheld-card{display:flex;align-items:center;gap:.75rem;padding:1rem 1.5rem;background:var(--card);border:1px solid var(--accent);border-radius:6px;text-decoration:none;color:var(--text);font-weight:600;transition:all .2s;box-shadow:var(--shadow);}
+.withheld-card:hover{background:var(--accent);color:#fff;transform:translateY(-2px);}
+.withheld-card .pdf-icon{font-size:1.5rem;}
+
 /* SCREENSHOTS */
 .screenshots-section{max-width:1100px;margin:2rem auto;padding:0 1.5rem}
 .screenshots-title{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--accent);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--accent)}
@@ -58,7 +69,12 @@
 </style>
 </head>
 <body>
-<div class="header"><div class="header-inner"><h1>Alameda Lane Repurposing — CORA Archive</h1></div></div>
+<div class="header">
+  <div class="header-inner">
+    <h1>Alameda Lane Repurposing — CORA Archive</h1>
+    <a href="#withheld" class="header-anchor" onclick="document.getElementById('withheld').scrollIntoView({behavior:'smooth'}); return false;">⬇ Jump to Withheld Files</a>
+  </div>
+</div>
 
 <div class="controls">
   <div class="search-box">
@@ -87,6 +103,20 @@
 
 <div class="email-list" id="emailList">
   <div class="no-results" id="loadingMessage">Fetching emails from GitHub... Please wait.</div>
+</div>
+
+<div class="withheld-section" id="withheld">
+  <div class="withheld-title">These are the files that DOTI insists on withholding from public view. What do they have to hide?</div>
+  <div class="withheld-grid">
+    <a class="withheld-card" href="Deliberative process certification.pdf" target="_blank">
+      <div class="pdf-icon">📄</div>
+      <div class="pdf-name">Deliberative process certification.pdf</div>
+    </a>
+    <a class="withheld-card" href="Certification Log.pdf" target="_blank">
+      <div class="pdf-icon">📄</div>
+      <div class="pdf-name">Certification Log.pdf</div>
+    </a>
+  </div>
 </div>
 
 <div class="screenshots-section">
