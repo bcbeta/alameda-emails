@@ -31,6 +31,8 @@
 .month-nav{max-width:1100px;margin:.5rem auto 0;padding:0 1.5rem;display:flex;gap:.4rem;flex-wrap:wrap}
 .month-nav a{padding:.3rem .7rem;border-radius:6px;font-size:.78rem;font-weight:600;text-decoration:none;color:var(--accent);background:var(--accent-light);border:1px solid transparent;transition:all .15s}
 .month-nav a:hover{background:var(--accent);color:#fff}
+.month-nav .anchor-special{background:#1c1917;color:#fafaf9;}
+.month-nav .anchor-special:hover{background:#44403c;color:#fff;}
 
 .email-list{max-width:1100px;margin:0 auto;padding:0 1.5rem 2rem;margin-top:1rem;}.month-group{margin-bottom:1.5rem}
 .month-label{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--accent);padding:.5rem 0;border-bottom:2px solid var(--accent);margin-bottom:.75rem;position:relative;background:var(--bg);z-index:1;cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center;scroll-margin-top:120px}.month-label:hover{color:var(--accent-dark)}.month-label .chevron{transition:transform .2s;font-size:.8rem}.month-group.collapsed .month-label .chevron{transform:rotate(-90deg)}.month-group.collapsed .email-card{display:none}
@@ -43,16 +45,8 @@
 .attach-list{margin-top:.75rem}.attach-title{font-size:.78rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem}.attach-item{display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .65rem;margin:.2rem;border-radius:6px;font-size:.78rem;font-weight:500;text-decoration:none;background:var(--accent);color:#fff;transition:background .15s}.attach-item:hover{background:var(--accent-dark)}
 .email-preview { font-size: .75rem; color: #a8a29e; font-weight: 400; margin-top: .5rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }.email-card.expanded .email-preview { display: none; }
 
-/* WITHHELD SECTION */
-.withheld-section{max-width:1100px;margin:2rem auto;padding:2rem 1.5rem;background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;scroll-margin-top:120px;}
-.withheld-title{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--accent-dark);margin-bottom:1.5rem;line-height:1.3;}
-.withheld-grid{display:flex;gap:1rem;flex-wrap:wrap;}
-.withheld-card{display:flex;align-items:center;gap:.75rem;padding:1rem 1.5rem;background:var(--card);border:1px solid var(--accent);border-radius:6px;text-decoration:none;color:var(--text);font-weight:600;transition:all .2s;box-shadow:var(--shadow);}
-.withheld-card:hover{background:var(--accent);color:#fff;transform:translateY(-2px);}
-.withheld-card .pdf-icon{font-size:1.5rem;}
-
 /* SCREENSHOTS */
-.screenshots-section{max-width:1100px;margin:2rem auto;padding:0 1.5rem}
+.screenshots-section{max-width:1100px;margin:2rem auto;padding:0 1.5rem;scroll-margin-top:120px;}
 .screenshots-title{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--accent);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--accent)}
 .screenshots-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
 .screenshot-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
@@ -61,11 +55,19 @@
 .screenshot-card .sc-name{padding:.75rem 1rem;font-size:.82rem;font-weight:500;color:var(--text)}
 .screenshot-card a{text-decoration:none;color:inherit}
 
+/* WITHHELD SECTION */
+.withheld-section{max-width:1100px;margin:2rem auto;padding:2rem 1.5rem;background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;scroll-margin-top:120px;}
+.withheld-title{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--accent-dark);margin-bottom:1.5rem;line-height:1.3;}
+.withheld-grid{display:flex;gap:1rem;flex-wrap:wrap;}
+.withheld-card{display:flex;align-items:center;gap:.75rem;padding:1rem 1.5rem;background:var(--card);border:1px solid var(--accent);border-radius:6px;text-decoration:none;color:var(--text);font-weight:600;transition:all .2s;box-shadow:var(--shadow);}
+.withheld-card:hover{background:var(--accent);color:#fff;transform:translateY(-2px);}
+.withheld-card .pdf-icon{font-size:1.5rem;}
+
 .footer{max-width:1100px;margin:2rem auto 0;padding:1.5rem;border-top:2px solid var(--border);text-align:center}.footer-cora{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;background:#1c1917;color:#fafaf9;border-radius:8px;text-decoration:none;font-weight:600;font-size:.9rem;transition:background .15s}.footer-cora:hover{background:#44403c}.footer-note{margin-top:.75rem;font-size:.78rem;color:var(--text-muted)}
 .no-results{text-align:center;padding:3rem;color:var(--text-muted);font-size:1rem}mark{background:var(--accent-light);color:var(--accent);border-radius:2px;padding:0 2px}
 
 /* MOBILE RESPONSIVENESS */
-@media(max-width:640px){.controls{flex-direction:column}.search-box,.sender-select,.pill-toggle{width:100%}.email-top{flex-direction:column;gap:.25rem}.email-recipients{max-width:100%}.month-nav{gap:.3rem}.month-nav a{padding:.25rem .5rem;font-size:.72rem}.month-label{scroll-margin-top:140px}}
+@media(max-width:640px){.controls{flex-direction:column}.search-box,.sender-select,.pill-toggle{width:100%}.email-top{flex-direction:column;gap:.25rem}.email-recipients{max-width:100%}.month-nav{gap:.3rem}.month-nav a{padding:.25rem .5rem;font-size:.72rem}.month-label, .screenshots-section, .withheld-section {scroll-margin-top:140px}}
 </style>
 </head>
 <body>
@@ -105,7 +107,7 @@
   <div class="no-results" id="loadingMessage">Fetching emails from GitHub... Please wait.</div>
 </div>
 
-<div class="screenshots-section">
+<div class="screenshots-section" id="screenshots">
   <div class="screenshots-title">DOTI Chat Screenshots</div>
   <div class="screenshots-grid" id="screenshotsGrid"></div>
 </div>
@@ -195,12 +197,21 @@ function render(){
   const senderFilter=document.getElementById('senderFilter').value;
   const highlightOnly=document.getElementById('highlightFilter').checked;
   const container=document.getElementById('emailList');
+  
+  // EXTRA LINKS TO APPEND TO MONTH NAV
+  const extraLinks = '<a href="#screenshots" class="anchor-special" onclick="event.preventDefault();document.getElementById(\'screenshots\').scrollIntoView({behavior:\'smooth\',block:\'start\'})">📸 Screenshots</a>';
+
   let filtered=EMAILS;
   if(senderFilter)filtered=filtered.filter(e=>e.n===senderFilter);
   if(highlightOnly)filtered=filtered.filter(e=>e.h);
   if(query){const terms=query.split(/\s+/).filter(t=>t.length>1);filtered=filtered.filter(e=>{const s=((e.x||'')+' '+(e.b||'')).toLowerCase();return terms.every(t=>s.includes(t));});}
   document.getElementById('stats').innerHTML='Showing <span>'+filtered.length+'</span> of <span>'+EMAILS.length+'</span> emails';
-  if(!filtered.length){container.innerHTML='<div class="no-results">No emails match your search.</div>';document.getElementById('monthNav').innerHTML='';return;}
+  
+  if(!filtered.length){
+    container.innerHTML='<div class="no-results">No emails match your search.</div>';
+    document.getElementById('monthNav').innerHTML=extraLinks;
+    return;
+  }
 
   const groups={};filtered.forEach(e=>{const k=getMonthYear(e.d);if(!groups[k])groups[k]=[];groups[k].push(e);});
 
@@ -212,7 +223,8 @@ function render(){
     const label=short+(parts[1]&&parts[1]!=='2025'?' '+parts[1]:'');
     return '<a href="#month-'+anchor+'" onclick="event.preventDefault();document.getElementById(\'month-'+anchor+'\').scrollIntoView({behavior:\'smooth\',block:\'start\'})">'+label+'</a>';
   }).join('');
-  document.getElementById('monthNav').innerHTML=navHtml;
+  
+  document.getElementById('monthNav').innerHTML=navHtml + extraLinks;
 
   let html='';
   for(const[month,emails]of Object.entries(groups)){
