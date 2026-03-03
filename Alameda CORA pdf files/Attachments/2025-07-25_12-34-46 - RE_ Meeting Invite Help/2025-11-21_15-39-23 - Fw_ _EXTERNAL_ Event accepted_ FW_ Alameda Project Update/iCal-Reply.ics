@@ -1,0 +1,111 @@
+BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+VERSION:2.0
+METHOD:REPLY
+PRODID:-//Apple Inc.//macOS 14.6//EN
+BEGIN:VTIMEZONE
+TZID:America/Denver
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0700
+DTSTART:20070311T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+TZNAME:MDT
+TZOFFSETTO:-0600
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0600
+DTSTART:20071104T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+TZNAME:MST
+TZOFFSETTO:-0700
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+X-MICROSOFT-LOCATIONS:[{"DisplayName":"Microsoft Teams Meeting"\,"Locati
+ onAnnotation":""\,"LocationUri":""\,"LocationStreet":""\,"LocationCity":
+ ""\,"LocationState":""\,"LocationCountry":""\,"LocationPostalCode":""\,"
+ LocationFullAddress":""}]
+SUMMARY;LANGUAGE=en-US:FW: Alameda Project Update
+X-MICROSOFT-CDO-OWNERAPPTID:2124099565
+PRIORITY:5
+CLASS:PUBLIC
+X-MICROSOFT-CDO-IMPORTANCE:1
+ORGANIZER;CN="Ford, Amy - DOTI HE3258 Manager Department of Transportati
+ on and Infrastructure";EMAIL="Amy.Ford@denvergov.org";SCHEDULE-AGENT=CLI
+ ENT;SENT-BY="mailto:jason@mgpublicaffairs.com":mailto:Amy.Ford@denvergov
+ .org
+TRANSP:OPAQUE
+X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE
+X-MICROSOFT-DONOTFORWARDMEETING:FALSE
+X-MICROSOFT-LOCATIONDISPLAYNAME:Microsoft Teams Meeting
+X-MICROSOFT-ONLINEMEETINGINFORMATION:{"OnlineMeetingChannelId":null\,"On
+ lineMeetingProvider":3}
+X-MICROSOFT-SKYPETEAMSMEETINGURL:https://teams.microsoft.com/l/meetup-jo
+ in/19%3ameeting_MDFjYzhjYzctZDBlMC00OWRjLWEzMTUtZTQ2ODE0NWZlOTk3%40threa
+ d.v2/0?context=%7b%22Tid%22%3a%2239c87ab3-6612-42c0-9620-a696d12df803%22
+ %2c%22Oid%22%3a%22457c0b40-4e67-47d6-b579-39971a3210b3%22%7d
+UID:040000008200E00074C5B7101A82E00800000000E0F2C34C8A4EDC01000000000000
+ 0000100000008F2A4928DD34F849A542BECD88CD0E9C
+DTSTART;TZID=America/Denver:20251106T161500
+X-MICROSOFT-REQUESTEDATTENDANCEMODE:DEFAULT
+SEQUENCE:0
+X-MICROSOFT-CDO-INTENDEDSTATUS:BUSY
+X-MICROSOFT-CDO-APPT-SEQUENCE:0
+LOCATION;LANGUAGE=en-US:Microsoft Teams Meeting
+X-MICROSOFT-CDO-INSTTYPE:0
+ATTENDEE;CN="jill.hamilton@mac.com";CUTYPE=UNKNOWN;EMAIL="jill.hamilton@
+ mac.com";PARTSTAT=ACCEPTED;ROLE=REQ-PARTICIPANT;SCHEDULE-AGENT=NONE:mail
+ to:jill.hamilton@mac.com
+STATUS:CONFIRMED
+DTSTAMP:20251106T041440Z
+LAST-MODIFIED:20251106T041440Z
+X-MICROSOFT-DISALLOW-COUNTER:FALSE
+X-MICROSOFT-LOCATIONSOURCE:None
+X-MICROSOFT-ISRESPONSEREQUESTED:TRUE
+X-MICROSOFT-SCHEDULINGSERVICEUPDATEURL:https://api.scheduler.teams.micro
+ soft.com/teams/39c87ab3-6612-42c0-9620-a696d12df803/457c0b40-4e67-47d6-b
+ 579-39971a3210b3/19_meeting_MDFjYzhjYzctZDBlMC00OWRjLWEzMTUtZTQ2ODE0NWZl
+ OTk3@thread.v2/0
+DTEND;TZID=America/Denver:20251106T164500
+X-MICROSOFT-SKYPETEAMSPROPERTIES:{"cid":"19:meeting_MDFjYzhjYzctZDBlMC00
+ OWRjLWEzMTUtZTQ2ODE0NWZlOTk3@thread.v2"\,"private":true\,"type":0\,"mid"
+ :0\,"rid":0\,"uid":null}
+DESCRIPTION;LANGUAGE=en-US:\n\n\n\n_____________________________________
+ ___\nFrom: Ford\, Amy - DOTI HE3258 Manager Department of Transportation
+  and Infrastructure <Amy.Ford@denvergov.org>\nSent: Wednesday\, 05 Novem
+ ber 2025 19:28:11 UTC\nTo: Ford\, Amy - DOTI HE3258 Manager Department o
+ f Transportation and Infrastructure\; Jason Gallardo\; Lanphier\, Molly 
+ - DOTI Project Manager Engineering Senior\; Hoffman\, Timothy C. - MO MO
+  Director of Policy\; Dolan\, Jeff J. - MO Chief Strategy Officer and Co
+ unsel - Mayor's Office\nCc: Williams\, Nicholas - DOTI Deputy Manager In
+ ternal & External Affairs\nSubject: Alameda Project Update\nWhen: Thursd
+ ay\, November 6\, 2025 11:15 PM-11:45 PM.\nWhere: Microsoft Teams Meetin
+ g\n\nJason – please forward to Jill.\n\nThanks\,\nAlba\n________________
+ ________________________________________________________________\nMicros
+ oft Teams Need help?<https://aka.ms/JoinTeamsMeeting?omkt=en-US>\nJoin t
+ he meeting now<https://teams.microsoft.com/l/meetup-join/19%3ameeting_MD
+ FjYzhjYzctZDBlMC00OWRjLWEzMTUtZTQ2ODE0NWZlOTk3%40thread.v2/0?context=%7b
+ %22Tid%22%3a%2239c87ab3-6612-42c0-9620-a696d12df803%22%2c%22Oid%22%3a%22
+ 457c0b40-4e67-47d6-b579-39971a3210b3%22%7d>\nMeeting ID: 276 620 497 826
+  0\nPasscode: 2VL72AE2\n________________________________\nDial in by pho
+ ne\n+1 720-388-6219\,\,298875514#<tel:+17203886219\,\,298875514> United 
+ States\, Aurora\nFind a local number<https://dialin.teams.microsoft.com/
+ 88bb87a2-4d23-4cf3-9a7f-ba61883e72a8?id=298875514>\nPhone conference ID:
+  298 875 514#\nJoin on a video conferencing device\nTenant key: 86752169
+ 5@t.plcm.vc\nVideo ID: 119 735 825 5\nMore info<https://dialin.plcm.vc/t
+ eams/?key=867521695&conf=1197358255>\nFor organizers: Meeting options<ht
+ tps://teams.microsoft.com/meetingOptions/?organizerId=457c0b40-4e67-47d6
+ -b579-39971a3210b3&tenantId=39c87ab3-6612-42c0-9620-a696d12df803&threadI
+ d=19_meeting_MDFjYzhjYzctZDBlMC00OWRjLWEzMTUtZTQ2ODE0NWZlOTk3@thread.v2&
+ messageId=0&language=en-US> | Reset dial-in PIN<https://dialin.teams.mic
+ rosoft.com/usp/pstnconferencing>\n______________________________________
+ __________________________________________\n\n
+BEGIN:VALARM
+UID:C487AC15-A2AF-4F21-8A81-24A4075106A7
+X-WR-ALARMUID:C487AC15-A2AF-4F21-8A81-24A4075106A7
+TRIGGER:-PT15M
+DESCRIPTION:REMINDER
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR
