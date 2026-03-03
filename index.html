@@ -60,7 +60,6 @@
 <body>
 <div class="header"><div class="header-inner"><h1>Alameda Lane Repurposing — CORA Archive</h1></div></div>
 
-<!-- NON-STICKY CONTROLS -->
 <div class="controls">
   <div class="search-box">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -78,7 +77,6 @@
   </label>
 </div>
 
-<!-- STICKY BAR (Stats & Month Nav) -->
 <div class="sticky-bar">
   <div class="stats-wrap">
     <div class="stats" id="stats"></div>
@@ -134,28 +132,4 @@ fetch('alameda_emails.json')
 const SCREENSHOTS=[{"name": "Alameda checkin.jpg", "id": "1tcXWSqNBDsGQfpKacPZx6xvmq12iFt8E", "url": "https://drive.google.com/file/d/1tcXWSqNBDsGQfpKacPZx6xvmq12iFt8E/view?usp=drivesdk", "type": "image/jpeg", "size": 168976}, {"name": "Follow up to Jason and neighbors 1.jpg", "id": "1gv34OVU6H8b-_vCL7yprWePHw8ug4vf4", "url": "https://drive.google.com/file/d/1gv34OVU6H8b-_vCL7yprWePHw8ug4vf4/view?usp=drivesdk", "type": "image/jpeg", "size": 175366}, {"name": "Follow up to Jason and neighbors 2.jpg", "id": "1hKc8ElmG3_epOTYAjJdH1clibAVSMNFi", "url": "https://drive.google.com/file/d/1hKc8ElmG3_epOTYAjJdH1clibAVSMNFi/view?usp=drivesdk", "type": "image/jpeg", "size": 176368}, {"name": "post check in for media inquiry meeting 1.jpg", "id": "1TN1yjWdAK7VWUQN-ixH_AKdZq-Y63ipL", "url": "https://drive.google.com/file/d/1TN1yjWdAK7VWUQN-ixH_AKdZq-Y63ipL/view?usp=drivesdk", "type": "image/jpeg", "size": 182510}, {"name": "Post check in for media inquiry meeting 2.jpg", "id": "1jy319sPTAXewNXVKgmrLyLIPdds29tFC", "url": "https://drive.google.com/file/d/1jy319sPTAXewNXVKgmrLyLIPdds29tFC/view?usp=drivesdk", "type": "image/jpeg", "size": 176088}, {"name": "post check in for media inquiry meeting 3.jpg", "id": "1w7Z9wvMgkB7J8PddOPJJHK6clDlbHmbz", "url": "https://drive.google.com/file/d/1w7Z9wvMgkB7J8PddOPJJHK6clDlbHmbz/view?usp=drivesdk", "type": "image/jpeg", "size": 222597}, {"name": "Post check in for media inquiry meeting 4.jpg", "id": "1knw4aJu8rbBcf_6voFBFD7V2x-ORPj1k", "url": "https://drive.google.com/file/d/1knw4aJu8rbBcf_6voFBFD7V2x-ORPj1k/view?usp=drivesdk", "type": "image/jpeg", "size": 181328}, {"name": "Post check in for media inquiry meeting 5.jpg", "id": "1CpL63Sa0Toqzpt7-HqM5Ys06Cle05TTP", "url": "https://drive.google.com/file/d/1CpL63Sa0Toqzpt7-HqM5Ys06Cle05TTP/view?usp=drivesdk", "type": "image/jpeg", "size": 166719}];
 
 const months=["January","February","March","April","May","June","July","August","September","October","November","December"];
-const monthsShort=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-function parseDate(d){if(!d)return null;try{const m=d.match(/(\d{4})-(\d{2})-(\d{2})/);if(m)return new Date(+m[1],+m[2]-1,+m[3]);}catch(e){}return null;}
-function formatDateShort(d){if(!d)return"No date";const p=parseDate(d);if(!p)return d;return p.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
-function getMonthYear(d){const p=parseDate(d);if(!p)return"Unknown Date";return months[p.getMonth()]+" "+p.getFullYear();}
-function monthAnchor(d){const p=parseDate(d);if(!p)return"unknown";return months[p.getMonth()]+p.getFullYear();}
-function escapeHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
-function highlightText(text,query){if(!query||!text)return escapeHtml(text);const e=escapeHtml(text);const terms=query.toLowerCase().split(/\s+/).filter(t=>t.length>1);if(!terms.length)return e;const pat=terms.map(t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|');return e.replace(new RegExp('('+pat+')','gi'),'<mark>$1</mark>');}
-function driveView(id){return'https://drive.google.com/file/d/'+id+'/view';}
-
-function driveThumbnail(id,sz){return'https://drive.google.com/thumbnail?id='+id+'&sz=w'+sz;}
-
-function fileIcon(n){n=n.toLowerCase();if(n.endsWith('.pdf'))return'📄';if(/\.(png|jpg|jpeg|gif)$/.test(n))return'🖼';if(/\.(xlsx?|csv)$/.test(n))return'📊';if(/\.docx?$/.test(n))return'📝';if(n.endsWith('.msg'))return'✉️';if(/\.html?$/.test(n))return'🌐';return'📎';}
-
-function buildScreenshots(){
-  const grid=document.getElementById('screenshotsGrid');let html='';
-  SCREENSHOTS.forEach(s=>{
-    const thumb=driveThumbnail(s.id,600);
-    const view=driveView(s.id);
-    const name=s.name.replace(/\.[^.]+$/,'');
-    html+='<div class="screenshot-card"><a href="'+view+'" target="_blank">';
-    html+='<img src="'+thumb+'" alt="'+escapeHtml(name)+'" loading="lazy">';
-    html+='<div class="sc-name">'+escapeHtml(name)+'</div>';
-    html+='</a></div>';
-  });
-  grid.
+const months
