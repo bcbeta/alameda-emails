@@ -78,6 +78,7 @@
   </div>
 </div>
 
+<!-- NON-STICKY CONTROLS -->
 <div class="controls">
   <div class="search-box">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -95,6 +96,7 @@
   </label>
 </div>
 
+<!-- STICKY BAR (Stats & Month Nav) -->
 <div class="sticky-bar">
   <div class="stats-wrap">
     <div class="stats" id="stats"></div>
@@ -107,11 +109,13 @@
   <div class="no-results" id="loadingMessage">Fetching emails from GitHub... Please wait.</div>
 </div>
 
+<!-- SCREENSHOTS SECTION -->
 <div class="screenshots-section" id="screenshots">
   <div class="screenshots-title">DOTI Chat Screenshots</div>
   <div class="screenshots-grid" id="screenshotsGrid"></div>
 </div>
 
+<!-- WITHHELD FILES SECTION -->
 <div class="withheld-section" id="withheld">
   <div class="withheld-title">These are the files that DOTI insists on withholding from public view. What do they have to hide?</div>
   <div class="withheld-grid">
@@ -249,12 +253,28 @@ function render(){
       html+='</div>';
       
       // LINK TO LOCAL ATTACHMENTS 
-      // This assumes the folder name is the PDF file name without the .pdf at the end.
       if(e.att&&e.att.length){
         html+='<div class="attach-list"><div class="attach-title">Attachments ('+e.att.length+')</div>';
+        
         let folderName = e.f ? e.f.replace(/\.pdf$/i, '') : 'UnknownFolder';
+        // Fix for automated export tools truncating attachment folder names to exactly 80 characters
+        if (folderName.length > 80) {
+            folderName = folderName.substring(0, 80).trim();
+        }
+        
         e.att.forEach(a=>{
-          html+='<a class="attach-item" href="Alameda%20CORA%20pdf%20files/Attachments/'+encodeURIComponent(folderName)+'/'+encodeURIComponent(a.n)+'" target="_blank" onclick="event.stopPropagation()">'+fileIcon(a.n)+' '+escapeHtml(a.n)+'</a>';
+          let fileName = a.n;
+          
+          // Fix for export tools truncating filenames in the index and losing their extension.
+          // The actual file on the drive still has .pdf attached to it. 
+          if (!/\.[a-zA-Z0-9]{2,4}$/i.test(fileName)) {
+              fileName += '.pdf';
+          }
+          
+          let attachPath = 'Alameda%20CORA%20pdf%20files/Attachments/'+encodeURIComponent(folderName)+'/'+encodeURIComponent(fileName);
+          
+          // Display the original name to the user, but use the fixed fileName for the URL
+          html+='<a class="attach-item" href="'+attachPath+'" target="_blank" onclick="event.stopPropagation()">'+fileIcon(fileName)+' '+escapeHtml(a.n)+'</a>';
         });
         html+='</div>';
       }
