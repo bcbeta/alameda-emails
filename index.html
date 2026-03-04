@@ -115,11 +115,11 @@
 <div class="withheld-section" id="withheld">
   <div class="withheld-title">These are the files that DOTI insists on withholding from public view. What do they have to hide?</div>
   <div class="withheld-grid">
-    <a class="withheld-card" href="Certification Log.pdf" target="_blank">
+    <a class="withheld-card" href="Alameda%20CORA%20pdf%20files/Certification%20Log.pdf" target="_blank">
       <div class="pdf-icon">📄</div>
       <div class="pdf-name">Certification Log.pdf</div>
     </a>
-    <a class="withheld-card" href="Deliberative process certification.pdf" target="_blank">
+    <a class="withheld-card" href="Alameda%20CORA%20pdf%20files/Deliberative%20process%20certification.pdf" target="_blank">
       <div class="pdf-icon">📄</div>
       <div class="pdf-name">Deliberative process certification.pdf</div>
     </a>
@@ -172,20 +172,17 @@ function getMonthYear(d){const p=parseDate(d);if(!p)return"Unknown Date";return 
 function monthAnchor(d){const p=parseDate(d);if(!p)return"unknown";return months[p.getMonth()]+p.getFullYear();}
 function escapeHtml(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 function highlightText(text,query){if(!query||!text)return escapeHtml(text);const e=escapeHtml(text);const terms=query.toLowerCase().split(/\s+/).filter(t=>t.length>1);if(!terms.length)return e;const pat=terms.map(t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|');return e.replace(new RegExp('('+pat+')','gi'),'<mark>$1</mark>');}
-function driveView(id){return'https://drive.google.com/file/d/'+id+'/view';}
-
-function driveThumbnail(id,sz){return'https://drive.google.com/thumbnail?id='+id+'&sz=w'+sz;}
 
 function fileIcon(n){n=n.toLowerCase();if(n.endsWith('.pdf'))return'📄';if(/\.(png|jpg|jpeg|gif)$/.test(n))return'🖼';if(/\.(xlsx?|csv)$/.test(n))return'📊';if(/\.docx?$/.test(n))return'📝';if(n.endsWith('.msg'))return'✉️';if(/\.html?$/.test(n))return'🌐';return'📎';}
 
 function buildScreenshots(){
   const grid=document.getElementById('screenshotsGrid');let html='';
   SCREENSHOTS.forEach(s=>{
-    const thumb=driveThumbnail(s.id,600);
-    const view=driveView(s.id);
-    const name=s.name.replace(/\.[^.]+$/,'');
-    html+='<div class="screenshot-card"><a href="'+view+'" target="_blank">';
-    html+='<img src="'+thumb+'" alt="'+escapeHtml(name)+'" loading="lazy">';
+    // Link directly to the local folder: Alameda CORA pdf files/Alameda chats
+    const fileUrl = 'Alameda%20CORA%20pdf%20files/Alameda%20chats/' + encodeURIComponent(s.name);
+    const name = s.name.replace(/\.[^.]+$/,'');
+    html+='<div class="screenshot-card"><a href="'+fileUrl+'" target="_blank">';
+    html+='<img src="'+fileUrl+'" alt="'+escapeHtml(name)+'" loading="lazy">';
     html+='<div class="sc-name">'+escapeHtml(name)+'</div>';
     html+='</a></div>';
   });
@@ -245,8 +242,23 @@ function render(){
       if(e.cc)html+='<div class="field"><span class="label">CC: </span>'+highlightText(e.cc,query)+'</div>';
       html+='<div class="field"><span class="label">Date: </span>'+escapeHtml(e.d)+'</div>';
       if(e.b)html+='<div class="email-body">'+highlightText(e.b,query)+'</div>';
-      html+='<div class="email-links">';if(e.pid)html+='<a class="btn-link btn-pdf" href="'+driveView(e.pid)+'" target="_blank" onclick="event.stopPropagation()">📄 View Full PDF</a>';html+='</div>';
-      if(e.att&&e.att.length){html+='<div class="attach-list"><div class="attach-title">Attachments ('+e.att.length+')</div>';e.att.forEach(a=>{html+='<a class="attach-item" href="'+driveView(a.id)+'" target="_blank" onclick="event.stopPropagation()">'+fileIcon(a.n)+' '+escapeHtml(a.n)+'</a>';});html+='</div>';}
+      
+      // LINK TO LOCAL PDF using the f field inside the relevant_email_pdfs folder
+      html+='<div class="email-links">';
+      if(e.f) html+='<a class="btn-link btn-pdf" href="Alameda%20CORA%20pdf%20files/relevant_email_pdfs/'+encodeURIComponent(e.f)+'" target="_blank" onclick="event.stopPropagation()">📄 View Full PDF</a>';
+      html+='</div>';
+      
+      // LINK TO LOCAL ATTACHMENTS 
+      // This assumes the folder name is the PDF file name without the .pdf at the end.
+      if(e.att&&e.att.length){
+        html+='<div class="attach-list"><div class="attach-title">Attachments ('+e.att.length+')</div>';
+        let folderName = e.f ? e.f.replace(/\.pdf$/i, '') : 'UnknownFolder';
+        e.att.forEach(a=>{
+          html+='<a class="attach-item" href="Alameda%20CORA%20pdf%20files/Attachments/'+encodeURIComponent(folderName)+'/'+encodeURIComponent(a.n)+'" target="_blank" onclick="event.stopPropagation()">'+fileIcon(a.n)+' '+escapeHtml(a.n)+'</a>';
+        });
+        html+='</div>';
+      }
+      
       html+='</div></div>';
     });
     html+='</div>';
