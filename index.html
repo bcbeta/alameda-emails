@@ -37,7 +37,7 @@
 
 .email-list{max-width:1100px;margin:0 auto;padding:0 1.5rem 2rem;margin-top:1rem;}.month-group{margin-bottom:1.5rem}
 .month-label{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--accent);padding:.5rem 0;border-bottom:2px solid var(--accent);margin-bottom:.75rem;position:relative;background:var(--bg);z-index:1;cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center;scroll-margin-top:120px}.month-label:hover{color:var(--accent-dark)}.month-label .chevron{transition:transform .2s;font-size:.8rem}.month-group.collapsed .month-label .chevron{transform:rotate(-90deg)}.month-group.collapsed .email-card{display:none}
-.email-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;margin-bottom:.5rem;box-shadow:var(--shadow);transition:box-shadow .2s,border-color .2s;cursor:pointer}.email-card:hover{box-shadow:var(--shadow-lg);border-color:var(--accent)}.email-card.expanded{border-color:var(--accent)}.email-card.highlighted-card{border-left:4px solid var(--accent);background:linear-gradient(90deg,#fffbeb 0%,#fff 8%)}
+.email-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;margin-bottom:.5rem;box-shadow:var(--shadow);transition:box-shadow .2s,border-color .2s;cursor:pointer;scroll-margin-top:120px}.email-card:hover{box-shadow:var(--shadow-lg);border-color:var(--accent)}.email-card.expanded{border-color:var(--accent)}.email-card.highlighted-card{border-left:4px solid var(--accent);background:linear-gradient(90deg,#fffbeb 0%,#fff 8%)}
 .email-top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}.email-subject{font-weight:600;font-size:.92rem;color:var(--text);flex:1}.email-badges{display:flex;gap:.4rem;align-items:center;flex-shrink:0}.badge-star{color:var(--accent);font-size:1rem}.badge-attach{color:var(--text-muted);font-size:.85rem}.email-date{font-size:.78rem;color:var(--text-muted);white-space:nowrap;flex-shrink:0}
 .email-meta{display:flex;gap:.5rem;margin-top:.4rem;flex-wrap:wrap;align-items:center}.email-sender{font-size:.8rem;font-weight:500;color:var(--accent);background:var(--accent-light);padding:.15rem .5rem;border-radius:4px}.email-recipients{font-size:.78rem;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:500px}
 .email-detail{display:none;margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border);font-size:.85rem}.email-card.expanded .email-detail{display:block}.email-detail .field{margin-bottom:.4rem}.email-detail .label{font-weight:600;color:var(--text-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.04em}
@@ -251,9 +251,12 @@ function render(){
       html+='<div class="field"><span class="label">Date: </span>'+escapeHtml(e.d)+'</div>';
       if(e.b)html+='<div class="email-body">'+highlightText(e.b,query)+'</div>';
       
-      // LINK TO LOCAL PDF using the f field inside the relevant_email_pdfs folder
       html+='<div class="email-links">';
+      // LINK TO LOCAL PDF using the f field inside the relevant_email_pdfs folder
       if(e.f) html+='<a class="btn-link btn-pdf" href="Alameda%20CORA%20pdf%20files/relevant_email_pdfs/'+encodeURIComponent(e.f)+'" target="_blank" onclick="event.stopPropagation()">📄 View Full PDF</a>';
+      
+      // LINK TO DEDICATED WEBPAGE
+      if(e.f) html+='<a class="btn-link" style="background:#fef3c7;color:#92400e;border:1px solid #b45309;" href="email.html?f='+encodeURIComponent(e.f)+'" target="_blank" onclick="event.stopPropagation()">↗ Open Dedicated Page</a>';
       html+='</div>';
       
       // LINK TO LOCAL ATTACHMENTS 
