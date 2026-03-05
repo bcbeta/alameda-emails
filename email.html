@@ -175,6 +175,16 @@
     }
 
     /**
+     * Strips specific phishing alert banners and artifacts from the body text
+     */
+    function cleanBody(text) {
+        if (!text) return "";
+        // Removes blocks starting with ZjQcmQRYFpfptBannerStart and ending with ZjQcmQRYFpfptBannerEnd
+        const phishRegex = /ZjQcmQRYFpfptBannerStart[\s\S]*?ZjQcmQRYFpfptBannerEnd/g;
+        return text.replace(phishRegex, "").trim();
+    }
+
+    /**
      * Icon mapping based on file extension
      */
     function fileIcon(n) {
@@ -220,9 +230,9 @@
                 html += `<div><span>Date</span> ${escapeHtml(e.d)}</div>`;
                 html += '</div>';
                 
-                // Email body with pre-wrap
+                // Email body with pre-wrap and phish banner cleaning
                 if(e.b) {
-                    html += `<div class="e-body">${escapeHtml(e.b)}</div>`;
+                    html += `<div class="e-body">${escapeHtml(cleanBody(e.b))}</div>`;
                 }
                 
                 // Attachment Links
