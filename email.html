@@ -94,7 +94,7 @@
             font-size: 0.75rem; 
         }
 
-        /* High line-height (1.8) and pre-wrap for perfect .msg paragraph formatting */
+        /* white-space: pre-wrap and line-height: 1.8 for optimal paragraph spacing */
         .e-body { 
             font-size: 1.05rem; 
             line-height: 1.8; 
@@ -165,7 +165,7 @@
 
 <script>
     /**
-     * Helper to escape HTML to prevent injection while keeping raw text safe
+     * Escape HTML to ensure safety while preserving characters from raw text.
      */
     function escapeHtml(s) {
         if (!s) return "";
@@ -175,7 +175,7 @@
     }
 
     /**
-     * Returns an emoji based on file extension
+     * Icon mapping based on file extension
      */
     function fileIcon(n) {
         n = n.toLowerCase();
@@ -190,54 +190,29 @@
 
     function renderSingleEmail() {
         const container = document.getElementById('emailContainer');
-        
-        // Safety check for URL parameters
-        let fileQuery = '';
-        try {
-            const urlParams = new URLSearchParams(window.location.search);
-            fileQuery = urlParams.get('f');
-        } catch (e) {
-            container.innerHTML = '<div class="error">URL Error<div class="error-hint">The link contains invalid characters. Please go back to the index and try again.</div></div>';
-            return;
-        }
+        const urlParams = new URLSearchParams(window.location.search);
+        const fileQuery = urlParams.get('f');
 
         if (!fileQuery) {
-            container.innerHTML = '<div class="error">No email specified.<div class="error-hint">Please return to the archive and select an email.</div></div>';
+            container.innerHTML = '<div class="error">No email specified.</div>';
             return;
         }
 
-        // Fetching the database as text first to sanitize
+        // Fetch the cleaned JSON database
         fetch('alameda_emails.json')
             .then(r => {
-                if (!r.ok) throw new Error(`HTTP Error: ${r.status}. The file 'alameda_emails.json' might be missing.`);
-                return r.text();
+                if (!r.ok) throw new Error(`HTTP ${r.status}: Could not load database file.`);
+                return r.json();
             })
-            .then(text => {
-                // 1. Remove Byte Order Mark (BOM) if present
-                let sanitized = text.trim().replace(/^\uFEFF/, '');
-                
-                // 2. Remove illegal control characters (ASCII 0-31 and 127-159)
-                // We exclude \n (0A) and \r (0D) as they are likely escaped correctly as strings,
-                // but literal control characters in a JSON file will crash the parser.
-                sanitized = sanitized.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g, "");
-                
-                let data;
-                try {
-                    data = JSON.parse(sanitized);
-                } catch (e) {
-                    console.error("JSON Parse Detail:", e);
-                    throw new Error("JSON Parsing Failed. The 5.4MB file contains invalid internal data.");
-                }
-
+            .then(data => {
                 const e = data.find(item => item.f === fileQuery);
                 if (!e) {
-                    container.innerHTML = '<div class="error">Email not found in database.<div class="error-hint">We loaded the data, but couldn\'t find a record for: <b>' + escapeHtml(fileQuery) + '</b></div></div>';
+                    container.innerHTML = `<div class="error">Email not found.<div class="error-hint">We could not find a record matching: <b>${escapeHtml(fileQuery)}</b></div></div>`;
                     return;
                 }
                 
-                // Build content
+                // Construct the header info
                 let html = `<h1 class="e-subj">${escapeHtml(e.s || '(No Subject)')}</h1>`;
-                
                 html += '<div class="e-meta">';
                 html += `<div><span>From</span> ${escapeHtml(e.n)}${e.e ? ' &lt;' + escapeHtml(e.e) + '&gt;' : ''}</div>`;
                 if(e.to) html += `<div><span>To</span> ${escapeHtml(e.to)}</div>`;
@@ -245,23 +220,20 @@
                 html += `<div><span>Date</span> ${escapeHtml(e.d)}</div>`;
                 html += '</div>';
                 
+                // Email body with pre-wrap
                 if(e.b) {
                     html += `<div class="e-body">${escapeHtml(e.b)}</div>`;
                 }
                 
-                // Attachments
-                html += '<div class="e-att">';
-                html += '<div class="e-att-title">Source Files & Attachments</div>';
-                html += '<div class="attach-list">';
+                // Attachment Links
+                html += '<div class="e-att"><div class="e-att-title">Source Files & Attachments</div><div class="attach-list">';
                 
-                // Link to original PDF
+                // Link back to the original full PDF export
                 html += `<a class="attach-item pdf-item" href="Alameda%20CORA%20pdf%20files/relevant_email_pdfs/${encodeURIComponent(e.f)}" target="_blank">📄 View Original Email PDF</a>`;
                 
                 if(e.att && e.att.length) {
                     let folderName = e.f ? e.f.replace(/\.pdf$/i, '') : 'UnknownFolder';
-                    if (folderName.length > 80) { 
-                        folderName = folderName.substring(0, 80).trim(); 
-                    }
+                    if (folderName.length > 80) folderName = folderName.substring(0, 80).trim();
                     
                     e.att.forEach(a => {
                         let fileName = a.n;
@@ -272,26 +244,16 @@
                 }
                 
                 html += '</div></div>';
-                
                 container.innerHTML = html;
                 document.title = escapeHtml(e.s || 'Email') + ' - CORA Archive';
             })
             .catch(err => {
                 console.error("Archive Load Error:", err);
-                container.innerHTML = `
-                    <div class="error">
-                        Error loading email data.
-                        <div class="error-hint">
-                            <b>Technical Details:</b> ${err.message}<br><br>
-                            If this persists, the JSON file might have a structural error. Ensure your Python script finished successfully.
-                        </div>
-                    </div>`;
+                container.innerHTML = `<div class="error">Error loading email data.<div class="error-hint">Technical Details: ${err.message}</div></div>`;
             });
     }
 
-    // Run on load
     renderSingleEmail();
 </script>
-
 </body>
 </html>
