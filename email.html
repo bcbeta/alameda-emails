@@ -190,24 +190,43 @@
 
     function renderSingleEmail() {
         const container = document.getElementById('emailContainer');
-        const urlParams = new URLSearchParams(window.location.search);
-        const fileQuery = urlParams.get('f');
+        
+        // Safety check for URL parameters
+        let fileQuery = '';
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            fileQuery = urlParams.get('f');
+        } catch (e) {
+            container.innerHTML = '<div class="error">URL Error<div class="error-hint">The link contains invalid characters. Please go back to the index and try again.</div></div>';
+            return;
+        }
 
         if (!fileQuery) {
             container.innerHTML = '<div class="error">No email specified.<div class="error-hint">Please return to the archive and select an email.</div></div>';
             return;
         }
 
-        // Fetching the database
+        // Fetching the database as text first to sanitize
         fetch('alameda_emails.json')
             .then(r => {
-                if (!r.ok) throw new Error(`HTTP Error: ${r.status}. The file 'alameda_emails.json' might be missing or named incorrectly.`);
-                return r.json();
+                if (!r.ok) throw new Error(`HTTP Error: ${r.status}. The file 'alameda_emails.json' might be missing.`);
+                return r.text();
             })
-            .then(data => {
+            .then(text => {
+                // SANITIZATION: Remove illegal control characters (0-31) that often sneak into .msg data.
+                // Standard JSON parsers fail if these characters are literal (not escaped).
+                const sanitized = text.replace(/[\x00-\x09\x0B-\x0C\x0E-\x1F\x7F]/g, "");
+                
+                let data;
+                try {
+                    data = JSON.parse(sanitized);
+                } catch (e) {
+                    throw new Error("JSON Parsing Failed. The 5.4MB file contains invalid characters that couldn't be automatically cleaned.");
+                }
+
                 const e = data.find(item => item.f === fileQuery);
                 if (!e) {
-                    container.innerHTML = '<div class="error">Email not found in database.<div class="error-hint">We found the data file, but couldn\'t find a record for: <b>' + escapeHtml(fileQuery) + '</b></div></div>';
+                    container.innerHTML = '<div class="error">Email not found in database.<div class="error-hint">We loaded the data, but couldn\'t find a record for: <b>' + escapeHtml(fileQuery) + '</b></div></div>';
                     return;
                 }
                 
@@ -259,8 +278,7 @@
                         Error loading email data.
                         <div class="error-hint">
                             <b>Technical Details:</b> ${err.message}<br><br>
-                            This usually happens if the 5.4MB JSON file has a syntax error or is missing. 
-                            If you just renamed the file, ensure it's not named <b>alameda_emails.json.json</b>.
+                            If this error persists, it means the 5.4MB JSON file has a syntax error that the browser cannot bypass.
                         </div>
                     </div>`;
             });
