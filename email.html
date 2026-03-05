@@ -21,7 +21,8 @@
 .e-meta div:last-child { margin-bottom: 0; }
 .e-meta span { font-weight: 700; color: var(--text-muted); display: inline-block; width: 65px; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.75rem; }
 
-.e-body { font-size: 1.05rem; line-height: 1.7; white-space: pre-wrap; color: var(--text); word-wrap: break-word; }
+.e-body { font-size: 1.05rem; line-height: 1.7; color: var(--text); word-wrap: break-word; }
+.e-body p { margin-bottom: 1rem; }
 
 .e-att { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 2px dashed var(--border); }
 .e-att-title { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--text); margin-bottom: 1.5rem; }
@@ -87,9 +88,9 @@ function renderSingleEmail() {
       html += '</div>';
       
       if(e.b) {
-        // Fix for PDF hard-wrapping: Converts single line breaks to spaces, preserves paragraph breaks
-        let fixedBody = e.b.replace(/\r\n/g, '\n').split(/\n{2,}/).map(p => p.replace(/\s*\n\s*/g, ' ').trim()).filter(p => p).join('\n\n');
-        html += '<div class="e-body">' + escapeHtml(fixedBody) + '</div>';
+        // Safe line break conversion: Escape HTML first, then convert \n to <br> tags
+        let safeBody = escapeHtml(e.b).replace(/\n/g, '<br>');
+        html += '<div class="e-body">' + safeBody + '</div>';
       }
       
       // Render Attachments using the exact same robust logic as the main page
