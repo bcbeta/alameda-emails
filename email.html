@@ -22,7 +22,8 @@
 .e-meta span { font-weight: 700; color: var(--text-muted); display: inline-block; width: 65px; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.75rem; }
 
 .e-body { font-size: 1.05rem; line-height: 1.7; color: var(--text); word-wrap: break-word; }
-.e-body p { margin-bottom: 1rem; }
+.e-body p { margin-bottom: 1.25rem; }
+.e-body p:last-child { margin-bottom: 0; }
 
 .e-att { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 2px dashed var(--border); }
 .e-att-title { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--text); margin-bottom: 1.5rem; }
@@ -88,8 +89,19 @@ function renderSingleEmail() {
       html += '</div>';
       
       if(e.b) {
-        // Safe line break conversion: Escape HTML first, then convert \n to <br> tags
-        let safeBody = escapeHtml(e.b).replace(/\n/g, '<br>');
+        // 1. Standardize all carriage returns
+        let text = e.b.replace(/\r\n/g, '\n');
+        
+        // 2. Split by true paragraph breaks (2 or more newlines)
+        let paragraphs = text.split(/\n\s*\n/);
+        
+        // 3. Process each paragraph: escape HTML, turn single newlines into spaces, wrap in <p> tags
+        let safeBody = paragraphs
+          .map(p => p.trim())
+          .filter(p => p.length > 0)
+          .map(p => '<p>' + escapeHtml(p).replace(/\n/g, ' ') + '</p>')
+          .join('');
+          
         html += '<div class="e-body">' + safeBody + '</div>';
       }
       
