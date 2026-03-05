@@ -94,7 +94,7 @@
             font-size: 0.75rem; 
         }
 
-        /* High line-height and pre-wrap for perfect .msg paragraph formatting */
+        /* High line-height (1.8) and pre-wrap for perfect .msg paragraph formatting */
         .e-body { 
             font-size: 1.05rem; 
             line-height: 1.8; 
@@ -143,7 +143,8 @@
         .pdf-item:hover { background: #44403c; }
 
         .loading { text-align: center; padding: 4rem; color: var(--text-muted); font-size: 1.1rem; }
-        .error { text-align: center; padding: 4rem; color: #dc2626; font-weight: 600; background: #fee2e2; border-radius: 8px; margin-top: 2rem; }
+        .error { text-align: center; padding: 2rem; color: #dc2626; font-weight: 600; background: #fee2e2; border-radius: 8px; margin-top: 2rem; border: 1px solid #fecaca; }
+        .error-hint { font-size: 0.85rem; font-weight: 400; color: #991b1b; margin-top: 1rem; line-height: 1.4; }
 
         @media(max-width: 640px) {
             .email-paper { padding: 2rem 1.5rem; }
@@ -163,7 +164,9 @@
 </div>
 
 <script>
-    // Helper functions
+    /**
+     * Helper to escape HTML to prevent injection while keeping raw text safe
+     */
     function escapeHtml(s) {
         if (!s) return "";
         const d = document.createElement('div');
@@ -171,6 +174,9 @@
         return d.innerHTML;
     }
 
+    /**
+     * Returns an emoji based on file extension
+     */
     function fileIcon(n) {
         n = n.toLowerCase();
         if (n.endsWith('.pdf')) return '📄';
@@ -188,20 +194,24 @@
         const fileQuery = urlParams.get('f');
 
         if (!fileQuery) {
-            container.innerHTML = '<div class="error">No email specified. Please return to the archive and select an email.</div>';
+            container.innerHTML = '<div class="error">No email specified.<div class="error-hint">Please return to the archive and select an email.</div></div>';
             return;
         }
 
+        // Fetching the database
         fetch('alameda_emails.json')
-            .then(r => r.json())
+            .then(r => {
+                if (!r.ok) throw new Error(`HTTP Error: ${r.status}. The file 'alameda_emails.json' might be missing or named incorrectly.`);
+                return r.json();
+            })
             .then(data => {
                 const e = data.find(item => item.f === fileQuery);
                 if (!e) {
-                    container.innerHTML = '<div class="error">Sorry, we could not find this email in the database.</div>';
+                    container.innerHTML = '<div class="error">Email not found in database.<div class="error-hint">We found the data file, but couldn\'t find a record for: <b>' + escapeHtml(fileQuery) + '</b></div></div>';
                     return;
                 }
                 
-                // Build the HTML for the email
+                // Build content
                 let html = `<h1 class="e-subj">${escapeHtml(e.s || '(No Subject)')}</h1>`;
                 
                 html += '<div class="e-meta">';
@@ -215,7 +225,7 @@
                     html += `<div class="e-body">${escapeHtml(e.b)}</div>`;
                 }
                 
-                // Render Attachments
+                // Attachments
                 html += '<div class="e-att">';
                 html += '<div class="e-att-title">Source Files & Attachments</div>';
                 html += '<div class="attach-list">';
@@ -243,8 +253,16 @@
                 document.title = escapeHtml(e.s || 'Email') + ' - CORA Archive';
             })
             .catch(err => {
-                console.error(err);
-                container.innerHTML = '<div class="error">Error loading the database. Make sure alameda_emails.json is accessible.</div>';
+                console.error("Archive Load Error:", err);
+                container.innerHTML = `
+                    <div class="error">
+                        Error loading email data.
+                        <div class="error-hint">
+                            <b>Technical Details:</b> ${err.message}<br><br>
+                            This usually happens if the 5.4MB JSON file has a syntax error or is missing. 
+                            If you just renamed the file, ensure it's not named <b>alameda_emails.json.json</b>.
+                        </div>
+                    </div>`;
             });
     }
 
