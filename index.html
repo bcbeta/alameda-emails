@@ -228,11 +228,16 @@ function emailCardHtml(e,id,query){
 function buildWithheld(){
   const list=document.getElementById('withheldGrid');if(!list)return;
   const withheldEmails=EMAILS.filter(e=>e.c==='withheld');
-  const briefingFiles=WITHHELD_DOCUMENTS.filter(item=>(item.group||'')==='four emails preppng for briefing'&&/\.pptx$/i.test(item.name||item.path||''));
-  if(!withheldEmails.length&&!briefingFiles.length){list.innerHTML='';return;}
+  const standaloneFiles=WITHHELD_DOCUMENTS.filter(item=>{
+    const name=item.name||'';
+    const group=item.group||'';
+    return (group==='four emails preppng for briefing'&&/\.pptx$/i.test(name))||
+      (group==='one draft redlined plan set'&&name==='Alameda - Franklin and Osage - 12th - RV Redlines 6.26.25-BB.pdf');
+  });
+  if(!withheldEmails.length&&!standaloneFiles.length){list.innerHTML='';return;}
   const groups={};
   withheldEmails.forEach(email=>{const group=email.g||'Withheld documents';if(!groups[group])groups[group]={emails:[],files:[]};groups[group].emails.push(email);});
-  briefingFiles.forEach(file=>{const group=file.group||'Withheld documents';if(!groups[group])groups[group]={emails:[],files:[]};groups[group].files.push(file);});
+  standaloneFiles.forEach(file=>{const group=file.group||'Withheld documents';if(!groups[group])groups[group]={emails:[],files:[]};groups[group].files.push(file);});
   let html='';
   Object.entries(groups).forEach(([group,items],groupIdx)=>{
     html+=`<div class="withheld-group"><div class="withheld-group-title">${escapeHtml(group)}</div>`;
