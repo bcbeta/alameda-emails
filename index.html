@@ -47,10 +47,15 @@
 .screenshot-card a{text-decoration:none;color:inherit}
 .withheld-section{max-width:1100px;margin:2rem auto;padding:2rem 1.5rem;background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;scroll-margin-top:120px;}
 .withheld-title{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--accent-dark);margin-bottom:1.5rem;line-height:1.3;}
+.withheld-list{display:grid;gap:1.25rem;}
+.withheld-group-title{font-size:.78rem;font-weight:700;color:var(--accent-dark);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.5rem;}
+.withheld-email-list{margin-bottom:.75rem;}
+.withheld-file-title{font-size:.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin:.65rem 0 .4rem;}
 .withheld-grid{display:flex;gap:1rem;flex-wrap:wrap;}
-.withheld-card{display:flex;align-items:center;gap:.75rem;padding:1rem 1.5rem;background:var(--card);border:1px solid var(--accent);border-radius:6px;text-decoration:none;color:var(--text);font-weight:600;transition:all .2s;box-shadow:var(--shadow);}
+.withheld-card{display:flex;align-items:center;gap:.75rem;padding:1rem 1.5rem;background:var(--card);border:1px solid var(--accent);border-radius:6px;text-decoration:none;color:var(--text);font-weight:600;transition:all .2s;box-shadow:var(--shadow);max-width:100%;}
 .withheld-card:hover{background:var(--accent);color:#fff;transform:translateY(-2px);}
 .withheld-card .pdf-icon{font-size:1.5rem;}
+.withheld-card .pdf-name{word-break:break-word;}
 .footer{max-width:1100px;margin:2rem auto 0;padding:1.5rem;border-top:2px solid var(--border);text-align:center}.footer-cora{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;background:#1c1917;color:#fafaf9;border-radius:8px;text-decoration:none;font-weight:600;font-size:.9rem;transition:background .15s}.footer-cora:hover{background:#44403c}.footer-note{margin-top:.75rem;font-size:.78rem;color:var(--text-muted)}
 .no-results{text-align:center;padding:3rem;color:var(--text-muted);font-size:1rem}mark{background:var(--accent-light);color:var(--accent);border-radius:2px;padding:0 2px}
 @media(max-width:640px){.controls{flex-direction:column}.search-box,.sender-select,.pill-toggle{width:100%}.email-top{flex-direction:column;gap:.25rem}.email-recipients{max-width:100%}.month-nav{gap:.3rem}.month-nav a{padding:.25rem .5rem;font-size:.72rem}.month-label, .screenshots-section, .withheld-section {scroll-margin-top:140px}}
@@ -102,17 +107,8 @@
 </div>
 
 <div class="withheld-section" id="withheld">
-  <div class="withheld-title">These are the files that DOTI insists on withholding from public view. What do they have to hide?</div>
-  <div class="withheld-grid">
-    <a class="withheld-card" href="Alameda%20CORA%20pdf%20files/Certification%20Log.pdf" target="_blank">
-      <div class="pdf-icon">📄</div>
-      <div class="pdf-name">Certification Log.pdf</div>
-    </a>
-    <a class="withheld-card" href="Alameda%20CORA%20pdf%20files/Deliberative%20process%20certification.pdf" target="_blank">
-      <div class="pdf-icon">📄</div>
-      <div class="pdf-name">Deliberative process certification.pdf</div>
-    </a>
-  </div>
+  <div class="withheld-title">These are the files that DOTI withheld from public view and only released after receiving a court complaint.</div>
+  <div class="withheld-list" id="withheldGrid"></div>
 </div>
 
 <div class="footer">
@@ -122,15 +118,24 @@
 
 <script>
 let EMAILS = [];
+let WITHHELD_DOCUMENTS = [];
 
-fetch('alameda_emails.json')
+const emailDataRequest = fetch('alameda_emails.json')
   .then(response => {
     if (!response.ok) throw new Error('Network response not ok');
     return response.json();
-  })
-  .then(data => {
+  });
+
+const withheldDataRequest = fetch('withheld_documents.json')
+  .then(response => response.ok ? response.json() : [])
+  .catch(() => []);
+
+Promise.all([emailDataRequest, withheldDataRequest])
+  .then(([data, withheldData]) => {
     EMAILS = data;
+    WITHHELD_DOCUMENTS = withheldData;
     render();
+    buildWithheld();
   })
   .catch(error => {
     document.getElementById('emailList').innerHTML = `<div class="no-results">Error loading email data.</div>`;
@@ -154,7 +159,20 @@ function highlightText(htmlStr, query){
   return htmlStr.replace(regex, '<mark>$1</mark>');
 }
 
-function fileIcon(n){n=n.toLowerCase();if(n.endsWith('.pdf'))return'📄';if(/\.(png|jpg|jpeg|gif)$/.test(n))return'🖼';return'📎';}
+function driveView(id){return'https://drive.google.com/file/d/'+id+'/view';}
+function localFileUrl(path){return String(path||'').split('/').map(encodeURIComponent).join('/');}
+function emailPdfUrl(e){if(e.pid)return driveView(e.pid);if(!e.f)return'';return e.f.includes('/')?localFileUrl(e.f):'Alameda%20CORA%20pdf%20files/relevant_email_pdfs/'+encodeURIComponent(e.f);}
+function attachmentUrl(a,e){
+  if(a.id)return driveView(a.id);
+  if(a.path)return localFileUrl(a.path);
+  if(!a.n)return'';
+  let fileName=a.n;if(!/\.[a-zA-Z0-9]{2,5}$/i.test(fileName))fileName+='.pdf';
+  let folderName=e&&e.f?e.f.replace(/\.pdf$/i,''):'UnknownFolder';
+  if(folderName.length>80)folderName=folderName.substring(0,80).trim();
+  return 'Alameda%20CORA%20pdf%20files/Attachments/'+encodeURIComponent(folderName)+'/'+encodeURIComponent(fileName);
+}
+
+function fileIcon(n){n=String(n||'').toLowerCase();if(n.endsWith('.pdf'))return'📄';if(/\.(png|jpg|jpeg|gif)$/.test(n))return'🖼';if(/\.(pptx?|key)$/.test(n))return'📊';if(/\.docx?$/.test(n))return'📝';return'📎';}
 
 function buildScreenshots(){
   const grid=document.getElementById('screenshotsGrid');let html='';
@@ -165,12 +183,78 @@ function buildScreenshots(){
   grid.innerHTML=html;
 }
 
+function emailCardHtml(e,id,query){
+  const hClass=e.h?' highlighted-card':'';
+  let html=`<div class="email-card${hClass}" id="${id}" onclick="toggleCard('${id}')">`;
+  html+=`<div class="email-top"><div class="email-subject">${highlightText(escapeHtml(e.s||'(No Subject)'),query)}</div><div class="email-badges">`;
+  if(e.h)html+='<span class="badge-star" title="Highlighted">★</span>';if(e.att?.length)html+=`<span class="badge-attach" title="${e.att.length} attachment(s)">📎${e.att.length}</span>`;
+  html+=`</div><div class="email-date">${formatDateShort(e.d)}</div></div>`;
+  html+=`<div class="email-meta"><span class="email-sender">${highlightText(escapeHtml(e.n||''),query)}</span>`;
+  if(e.to)html+=`<span class="email-recipients">→ ${highlightText(escapeHtml(e.to.substring(0,80)),query)}${e.to.length>80?'…':''}</span>`;
+  html+='</div>';
+  if(e.b){
+    const safePreview=escapeHtml(e.b.substring(0,420).replace(/[\r\n]+/g,' '));
+    html+=`<div class="email-preview">${highlightText(safePreview,query)}${e.b.length>420?'…':''}</div>`;
+  }
+  html+='<div class="email-detail">';
+  html+=`<div class="field"><span class="label">From: </span>${escapeHtml(e.n||'')}${e.e?' &lt;'+escapeHtml(e.e)+'&gt;':''}</div>`;
+  if(e.to)html+=`<div class="field"><span class="label">To: </span>${highlightText(escapeHtml(e.to),query)}</div>`;
+  if(e.cc)html+=`<div class="field"><span class="label">CC: </span>${highlightText(escapeHtml(e.cc),query)}</div>`;
+  html+=`<div class="field"><span class="label">Date: </span>${escapeHtml(e.d||'')}</div>`;
+  if(e.b)html+=`<div class="email-body">${highlightText(escapeHtml(e.b),query)}</div>`;
+  const pdfUrl=emailPdfUrl(e);
+  html+='<div class="email-links">';
+  if(pdfUrl)html+=`<a class="btn-link btn-pdf" href="${pdfUrl}" target="_blank" onclick="event.stopPropagation()">📄 View Full PDF</a>`;
+  if(e.f&&e.c!=='withheld'&&!e.f.includes('/'))html+=`<a class="btn-link" style="background:#fef3c7;color:#92400e;border:1px solid #b45309;" href="email.html?f=${encodeURIComponent(e.f)}" target="_blank" onclick="event.stopPropagation()">↗ Open Dedicated Page</a>`;
+  html+='</div>';
+  if(e.att?.length){
+    html+=`<div class="attach-list"><div class="attach-title">Attachments (${e.att.length})</div>`;
+    e.att.forEach(a=>{
+      const url=attachmentUrl(a,e);
+      if(url)html+=`<a class="attach-item" href="${url}" target="_blank" onclick="event.stopPropagation()">${fileIcon(a.n||a.path)} ${escapeHtml(a.n||'Attachment')}</a>`;
+    });
+    html+='</div>';
+  }
+  html+='</div></div>';
+  return html;
+}
+
+function buildWithheld(){
+  const list=document.getElementById('withheldGrid');if(!list)return;
+  const withheldEmails=EMAILS.filter(e=>e.c==='withheld');
+  const briefingFiles=WITHHELD_DOCUMENTS.filter(item=>(item.group||'')==='four emails preppng for briefing'&&/\.pptx$/i.test(item.name||item.path||''));
+  if(!withheldEmails.length&&!briefingFiles.length){list.innerHTML='';return;}
+  const groups={};
+  withheldEmails.forEach(email=>{const group=email.g||'Withheld documents';if(!groups[group])groups[group]={emails:[],files:[]};groups[group].emails.push(email);});
+  briefingFiles.forEach(file=>{const group=file.group||'Withheld documents';if(!groups[group])groups[group]={emails:[],files:[]};groups[group].files.push(file);});
+  let html='';
+  Object.entries(groups).forEach(([group,items],groupIdx)=>{
+    html+=`<div class="withheld-group"><div class="withheld-group-title">${escapeHtml(group)}</div>`;
+    html+='<div class="withheld-email-list">';
+    items.emails.forEach((email,idx)=>{html+=emailCardHtml(email,'withheld-email-'+groupIdx+'-'+idx,'');});
+    html+='</div>';
+    if(items.files.length){
+      html+='<div class="withheld-file-title">Separate file</div><div class="withheld-grid">';
+      items.files.forEach(item=>{
+        const label=item.subject||item.name;
+        html+=`<a class="withheld-card" href="${localFileUrl(item.path)}" target="_blank">`;
+        html+=`<div class="pdf-icon">${fileIcon(item.name||item.path||'')}</div>`;
+        html+=`<div class="pdf-name">${escapeHtml(label)}</div>`;
+        html+='</a>';
+      });
+      html+='</div>';
+    }
+    html+='</div>';
+  });
+  list.innerHTML=html;
+}
+
 function render(){
   const query=document.getElementById('searchInput').value.toLowerCase().trim();
   const senderFilter=document.getElementById('senderFilter').value;
   const highlightOnly=document.getElementById('highlightFilter').checked;
   const container=document.getElementById('emailList');
-  const extraLinks = '<a href="#screenshots" class="anchor-special" onclick="event.preventDefault();document.getElementById(\'screenshots\').scrollIntoView({behavior:\'smooth\',block:\'start\'})">📸 Screenshots</a>';
+  const extraLinks = '<a href="#withheld" class="anchor-special" onclick="event.preventDefault();document.getElementById(\'withheld\').scrollIntoView({behavior:\'smooth\',block:\'start\'})">📄 Withheld</a><a href="#screenshots" class="anchor-special" onclick="event.preventDefault();document.getElementById(\'screenshots\').scrollIntoView({behavior:\'smooth\',block:\'start\'})">📸 Screenshots</a>';
 
   let filtered=EMAILS;
   if(senderFilter)filtered=filtered.filter(e=>e.n===senderFilter);
@@ -199,46 +283,7 @@ function render(){
     const anchor=month.replace(/\s/g,'');
     html+=`<div class="month-group"><div class="month-label" id="month-${anchor}" onclick="toggleMonth(this)"><span>${month} (${emails.length})</span><span class="chevron">▼</span></div>`;
     emails.forEach((e,idx)=>{
-      const id='e-'+anchor+'-'+idx;const hClass=e.h?' highlighted-card':'';
-      html+=`<div class="email-card${hClass}" id="${id}" onclick="toggleCard('${id}')">`;
-      html+=`<div class="email-top"><div class="email-subject">${highlightText(escapeHtml(e.s||'(No Subject)'),query)}</div><div class="email-badges">`;
-      if(e.h)html+='<span class="badge-star">★</span>';if(e.att?.length)html+=`<span class="badge-attach">📎${e.att.length}</span>`;
-      html+=`</div><div class="email-date">${formatDateShort(e.d)}</div></div>`;
-      html+=`<div class="email-meta"><span class="email-sender">${highlightText(escapeHtml(e.n),query)}</span>`;
-      if(e.to)html+=`<span class="email-recipients">→ ${highlightText(escapeHtml(e.to.substring(0,80)),query)}${e.to.length>80?'…':''}</span></div>`;
-      
-      if(e.b) {
-        let safePreview = escapeHtml(e.b.substring(0,420).replace(/[\r\n]+/g,' '));
-        html+=`<div class="email-preview">${highlightText(safePreview,query)}${e.b.length>420?'…':''}</div>`;
-      }
-      
-      html+='<div class="email-detail">';
-      html+=`<div class="field"><span class="label">From: </span>${escapeHtml(e.n)}${e.e?' &lt;'+escapeHtml(e.e)+'&gt;':''}</div>`;
-      if(e.to)html+=`<div class="field"><span class="label">To: </span>${highlightText(escapeHtml(e.to),query)}</div>`;
-      if(e.cc)html+=`<div class="field"><span class="label">CC: </span>${highlightText(escapeHtml(e.cc),query)}</div>`;
-      html+=`<div class="field"><span class="label">Date: </span>${escapeHtml(e.d)}</div>`;
-      
-      if(e.b) {
-        html+=`<div class="email-body">${highlightText(escapeHtml(e.b),query)}</div>`;
-      }
-      
-      html+='<div class="email-links">';
-      if(e.f) html+=`<a class="btn-link btn-pdf" href="Alameda%20CORA%20pdf%20files/relevant_email_pdfs/${encodeURIComponent(e.f)}" target="_blank" onclick="event.stopPropagation()">📄 View Full PDF</a>`;
-      if(e.f) html+=`<a class="btn-link" style="background:#fef3c7;color:#92400e;border:1px solid #b45309;" href="email.html?f=${encodeURIComponent(e.f)}" target="_blank" onclick="event.stopPropagation()">↗ Open Dedicated Page</a>`;
-      html+='</div>';
-      
-      if(e.att?.length){
-        html+=`<div class="attach-list"><div class="attach-title">Attachments (${e.att.length})</div>`;
-        let folderName = e.f ? e.f.replace(/\.pdf$/i, '') : 'UnknownFolder';
-        if (folderName.length > 80) folderName = folderName.substring(0, 80).trim();
-        e.att.forEach(a=>{
-          let fileName = a.n; if (!/\.[a-zA-Z0-9]{2,4}$/i.test(fileName)) fileName += '.pdf';
-          let path = `Alameda%20CORA%20pdf%20files/Attachments/${encodeURIComponent(folderName)}/${encodeURIComponent(fileName)}`;
-          html+=`<a class="attach-item" href="${path}" target="_blank" onclick="event.stopPropagation()">${fileIcon(fileName)} ${escapeHtml(a.n)}</a>`;
-        });
-        html+='</div>';
-      }
-      html+='</div></div>';
+      html+=emailCardHtml(e,'e-'+anchor+'-'+idx,query);
     });
     html+='</div>';
   }
